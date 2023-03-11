@@ -1,0 +1,55 @@
+app:
+  name: family-catering
+  version: 1.0.0
+
+web:
+  pagination-limit: 10
+  allowed-origins:
+    - http://*
+    - https://*
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - OPTIONS
+    - DELETE
+  allowed-headers:
+    - Accept
+    - Authorization
+    - Content-Type
+  max-age: 300
+  limit-general-request-per-minute: 100
+  access-token-ttl: "15m"
+  refresh-token-ttl: "2160h"
+
+
+server:
+  host: fcat
+  port: 9000
+  read-timeout: 10s
+  write-timeout: 10s
+  shutdown-timeout: 3s
+
+log:
+  level: info
+
+postgres:
+  host: postgres
+  port: 5432
+  max-open-connection: 10
+  max-idle: 2
+  max-lifetime: 0s
+
+redis:
+  host: redis
+  port: 6379
+  database-name: 0
+  max-retries: 3
+  pool-size: 10
+
+mailer:
+  host: 192.168.96.4
+  port: 1025
+  support-email: support.famrily-catering@example.com
+  template-forgot-password: forgot_password_template.txt
+  

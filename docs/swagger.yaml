@@ -1,0 +1,1266 @@
+basePath: /api/v1
+definitions:
+  model.AuthForgotPasswordRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  model.AuthLoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  model.AuthLoginResponse:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+  model.AuthLogoutRequest:
+    properties:
+      password:
+        type: string
+    required:
+    - password
+    type: object
+  model.AuthRenewAccessTokenResponse:
+    properties:
+      access_token:
+        type: string
+      expired_at:
+        type: string
+    type: object
+  model.AuthResponse:
+    properties:
+      auth:
+        type: object
+    type: object
+  model.BaseOrderRequest:
+    properties:
+      name:
+        type: string
+      qty:
+        type: integer
+    required:
+    - name
+    - qty
+    type: object
+  model.ConfirmPaymentRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  model.CreateMenuRequest:
+    properties:
+      categories:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+    required:
+    - name
+    - price
+    type: object
+  model.CreateMenuResponse:
+    properties:
+      categories:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+    type: object
+  model.CreateOrderRequest:
+    properties:
+      customer_email:
+        type: string
+      orders:
+        items:
+          $ref: '#/definitions/model.BaseOrderRequest'
+        type: array
+    required:
+    - customer_email
+    type: object
+  model.CreateOrderResponse:
+    properties:
+      customer_email:
+        type: string
+      message:
+        description: Orders        []BaseOrder `json:"orders"`
+        type: string
+      order_id:
+        type: integer
+      total_price:
+        type: number
+    type: object
+  model.CreateOwnerRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - phone_number
+    type: object
+  model.CreateOwnerResponse:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+    type: object
+  model.GetMenuResponse:
+    $ref: '#/definitions/model.CreateMenuResponse'
+  model.GetOwnerResponse:
+    properties:
+      date_of_birth:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone_number:
+        type: string
+    type: object
+  model.MenuResponse:
+    properties:
+      menu:
+        type: object
+    type: object
+  model.OrderResponse:
+    properties:
+      order:
+        type: object
+    type: object
+  model.OwnerResponse:
+    properties:
+      owner:
+        type: object
+    type: object
+  model.ResetPasswordRequest:
+    properties:
+      password:
+        type: string
+      password_confirm:
+        type: string
+    required:
+    - password
+    - password_confirm
+    type: object
+  model.UpdateMenuRequest:
+    $ref: '#/definitions/model.CreateMenuRequest'
+  model.UpdateMenuResponse:
+    $ref: '#/definitions/model.CreateMenuResponse'
+  model.UpdateOwnerRequest:
+    properties:
+      date_of_birth:
+        type: string
+      name:
+        type: string
+      phone_number:
+        type: string
+    required:
+    - name
+    type: object
+  web.ErrJSONResponse:
+    properties:
+      error:
+        $ref: '#/definitions/web.Error'
+        type: object
+      process_time:
+        type: string
+      status:
+        type: string
+      success:
+        example: false
+        type: boolean
+    type: object
+  web.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  web.JSONResponse:
+    properties:
+      data:
+        type: object
+        x-omitempty: true
+      process_time:
+        type: string
+      status:
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+host: localhost:9000
+info:
+  contact:
+    email: support.family-catering@example.com
+    name: Family catering API Support
+    url: http://www.family-catering.com/support
+  description: Documentation for Family Catering API.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Family Catering API
+  version: "1.0"
+paths:
+  /auth/forgot-password:
+    put:
+      consumes:
+      - application/json
+      description: Auth Forgot password
+      parameters:
+      - description: logout owner payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.AuthForgotPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: '#/definitions/web.JSONResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Auth Forgot password
+      tags:
+      - auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login owner using registered email and password
+      parameters:
+      - description: Create owner payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.AuthLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            allOf:
+            - $ref: '#/definitions/web.JSONResponse'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.AuthResponse'
+                  - properties:
+                      auth:
+                        $ref: '#/definitions/model.AuthLoginResponse'
+                    type: object
+              type: object
+        "400":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Login owner
+      tags:
+      - auth
+  /auth/logout:
+    delete:
+      consumes:
+      - application/json
+      description: Logout owner
+      parameters:
+      - description: logout owner payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.AuthLogoutRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: '#/definitions/web.JSONResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Logout owner
+      tags:
+      - auth
+  /auth/renew-access-token:
+    get:
+      consumes:
+      - application/json
+      description: Auth Forgot password
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            allOf:
+            - $ref: '#/definitions/web.JSONResponse'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.AuthResponse'
+                  - properties:
+                      auth:
+                        $ref: '#/definitions/model.AuthRenewAccessTokenResponse'
+                    type: object
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Auth Forgot password
+      tags:
+      - auth
+  /menu:
+    get:
+      description: Show list of menus by (optionally) by given limit of offset
+      parameters:
+      - default: Bearer <your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Pagination limit
+        format: int64
+        in: query
+        name: limit
+        type: integer
+      - description: Pagination offset
+        format: int64
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            allOf:
+            - $ref: '#/definitions/web.JSONResponse'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.MenuResponse'
+                  - properties:
+                      menu:
+                        items:
+                          $ref: '#/definitions/model.GetMenuResponse'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Show list of menus
+      tags:
+      - menu
+    post:
+      consumes:
+      - application/json
+      description: Create a new menu
+      parameters:
+      - default: Bearer <your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body request
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateMenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            allOf:
+            - $ref: '#/definitions/web.JSONResponse'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.MenuResponse'
+                  - properties:
+                      menu:
+                        $ref: '#/definitions/model.CreateMenuResponse'
+                    type: object
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Create a menu
+      tags:
+      - menu
+  /menu/{id}:
+    delete:
+      description: Delete menu by given id
+      parameters:
+      - description: Menu id
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: '#/definitions/web.JSONResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Menu not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Delete menu
+      tags:
+      - menu
+    get:
+      description: Show interest menu detail by given id
+      parameters:
+      - default: Bearer <your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Menu id
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            allOf:
+            - $ref: '#/definitions/web.JSONResponse'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.MenuResponse'
+                  - properties:
+                      menu:
+                        $ref: '#/definitions/model.GetMenuResponse'
+                    type: object
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Menu not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Get menu
+      tags:
+      - menu
+    put:
+      consumes:
+      - application/json
+      description: Update menu by given id
+      parameters:
+      - description: Menu id
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body request
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateMenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            allOf:
+            - $ref: '#/definitions/web.JSONResponse'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.MenuResponse'
+                  - properties:
+                      menu:
+                        $ref: '#/definitions/model.UpdateMenuResponse'
+                    type: object
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Update  menu
+      tags:
+      - menu
+  /menu/{name}:
+    get:
+      description: Show interest menu detail by given name
+      parameters:
+      - default: Bearer <your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Menu name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            allOf:
+            - $ref: '#/definitions/web.JSONResponse'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.MenuResponse'
+                  - properties:
+                      menu:
+                        $ref: '#/definitions/model.GetMenuResponse'
+                    type: object
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Menu not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Get menu by given name
+      tags:
+      - menu
+  /order:
+    post:
+      consumes:
+      - application/json
+      description: Create a new order
+      parameters:
+      - default: Bearer <your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body request
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            allOf:
+            - $ref: '#/definitions/web.JSONResponse'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.OrderResponse'
+                  - properties:
+                      order:
+                        $ref: '#/definitions/model.CreateOrderResponse'
+                    type: object
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Create order
+      tags:
+      - order
+  /order/confirm/:
+    put:
+      description: Confirm unpaid order based on given email
+      parameters:
+      - default: Bearer <your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: customer email
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.ConfirmPaymentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: '#/definitions/web.JSONResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Confirm order payment
+      tags:
+      - order
+  /order/search:
+    get:
+      consumes:
+      - application/json
+      description: Search an order based on given query params
+      parameters:
+      - default: Bearer <your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: menu'ss name (if more than one name separated with comma without
+          additional space)
+        in: query
+        name: menu-names
+        type: string
+      - description: customer's email (if more than one email separated with comma
+          without additional space)
+        in: query
+        name: emails
+        type: string
+      - description: menu's name
+        in: query
+        name: exact-names
+        type: string
+      - description: the number of menus ordered per menu
+        in: query
+        name: qty
+        type: string
+      - description: maximum price of menu
+        in: query
+        name: max-price
+        type: string
+      - description: minimum price of menu
+        in: query
+        name: min-price
+        type: string
+      - description: status or ordered menu
+        in: query
+        name: status
+        type: string
+      - description: ordered menu start at given day
+        in: query
+        name: start-day
+        type: string
+      - description: ordered menu end at given day
+        in: query
+        name: end-day
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: '#/definitions/web.JSONResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Search order
+      tags:
+      - order
+  /owner:
+    get:
+      description: Show list of owners by (optionally) given limit and/or offset
+      parameters:
+      - description: Pagination limit
+        format: int64
+        in: query
+        name: limit
+        type: integer
+      - description: Pagination offset
+        format: int64
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            allOf:
+            - $ref: '#/definitions/web.JSONResponse'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.OwnerResponse'
+                  - properties:
+                      owner:
+                        items:
+                          $ref: '#/definitions/model.GetOwnerResponse'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Show list of owners
+      tags:
+      - owner
+    post:
+      consumes:
+      - application/json
+      description: Create an owner through Sign up
+      parameters:
+      - description: Create owner payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateOwnerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            allOf:
+            - $ref: '#/definitions/web.JSONResponse'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.OwnerResponse'
+                  - properties:
+                      owner:
+                        $ref: '#/definitions/model.CreateOwnerResponse'
+                    type: object
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "409":
+          description: Email already registered
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Create an owner
+      tags:
+      - owner
+  /owner/{id}:
+    delete:
+      description: Delete owner by given owner's id
+      parameters:
+      - description: Owner id
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: sid=<Add your session id>
+        description: Session id
+        in: header
+        name: Cookie
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: '#/definitions/web.JSONResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Owner not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Delete owner
+      tags:
+      - owner
+    get:
+      description: Show interest owner details
+      parameters:
+      - description: Owner id
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            allOf:
+            - $ref: '#/definitions/web.JSONResponse'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.OwnerResponse'
+                  - properties:
+                      owner:
+                        $ref: '#/definitions/model.GetOwnerResponse'
+                    type: object
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Owner not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Get owner by given id
+      tags:
+      - owner
+    put:
+      description: Update owner by given owner's id
+      parameters:
+      - description: Owner id
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Update owner payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateOwnerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: '#/definitions/web.JSONResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Owner not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Update owner
+      tags:
+      - owner
+  /owner/{id}/reset-password:
+    put:
+      description: Reset owner password by given id
+      parameters:
+      - description: Owner reset password id
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: sid=<Add your session id>
+        description: Session id
+        in: header
+        name: Cookie
+        required: true
+        type: string
+      - description: Reset Password payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.ResetPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: '#/definitions/web.JSONResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Owner not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Reset owner password (logged in state)
+      tags:
+      - owner
+  /owner/{id}/update-email:
+    put:
+      description: Update owner's email by given id
+      parameters:
+      - description: Owner reset password id
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: sid=<Add your session id>
+        description: Session id
+        in: header
+        name: Cookie
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: '#/definitions/web.JSONResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Owner not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Update Email owner
+      tags:
+      - owner
+  /owner/reset-password/{rpid}:
+    put:
+      description: Reset owner password by given rpid
+      parameters:
+      - description: Owner reset password id
+        in: path
+        name: rpid
+        required: true
+        type: string
+      - default: Bearer <Add password token here>
+        description: Insert your password token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Reset Password payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.ResetPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: '#/definitions/web.JSONResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "404":
+          description: Owner not found
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/web.ErrJSONResponse'
+      summary: Reset owner password (logged out state)
+      tags:
+      - owner
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -1,0 +1,59 @@
+version: '2'
+services:
+  postgres:
+    env_file: .env
+    image: postgres
+    container_name: postgres
+    volumes:
+      - pg_data:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DATABASE}
+    ports:
+      - 5432:5432
+    networks:
+     - fcat_network
+
+  redis:
+    image: redis
+    container_name: redis
+    env_file: .env
+    command: ["redis-server", "/etc/redis/redis.conf", "--save 30 1"]
+    volumes:
+      - ./config/redis.conf:/etc/redis/redis.conf
+      - redis_data:/data
+    ports:
+      - 6739:6739
+    networks:
+     - fcat_network
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+     - 1025:1025
+     - 8025:8025
+    networks:
+     - fcat_network
+  fcat:
+    build: .
+    container_name: fcat
+    image: fcat
+    env_file: .env
+    ports:
+      - 9000:9000
+    depends_on:
+      - postgres
+      - redis
+      - mailhog
+    networks:
+     - fcat_network
+volumes:
+  pg_data:
+    driver: local
+  redis_data:
+    driver: local
+networks:
+  fcat_network:
+    driver: bridge

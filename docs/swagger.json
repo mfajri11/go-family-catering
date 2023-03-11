@@ -1,0 +1,1988 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Documentation for Family Catering API.",
+        "title": "Family Catering API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Family catering API Support",
+            "url": "http://www.family-catering.com/support",
+            "email": "support.family-catering@example.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:9000",
+    "basePath": "/api/v1",
+    "paths": {
+        "/auth/forgot-password": {
+            "put": {
+                "description": "Auth Forgot password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Auth Forgot password",
+                "parameters": [
+                    {
+                        "description": "logout owner payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.AuthForgotPasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "$ref": "#/definitions/web.JSONResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "description": "Login owner using registered email and password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Login owner",
+                "parameters": [
+                    {
+                        "description": "Create owner payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.AuthLoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/web.JSONResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/model.AuthResponse"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "auth": {
+                                                            "$ref": "#/definitions/model.AuthLoginResponse"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "delete": {
+                "description": "Logout owner",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logout owner",
+                "parameters": [
+                    {
+                        "description": "logout owner payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.AuthLogoutRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "$ref": "#/definitions/web.JSONResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/renew-access-token": {
+            "get": {
+                "description": "Auth Forgot password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Auth Forgot password",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/web.JSONResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/model.AuthResponse"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "auth": {
+                                                            "$ref": "#/definitions/model.AuthRenewAccessTokenResponse"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/menu": {
+            "get": {
+                "description": "Show list of menus by (optionally) by given limit of offset",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Show list of menus",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cyour access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Pagination limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Pagination offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/web.JSONResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/model.MenuResponse"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "menu": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/model.GetMenuResponse"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new menu",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Create a menu",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cyour access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "body request",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CreateMenuRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/web.JSONResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/model.MenuResponse"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "menu": {
+                                                            "$ref": "#/definitions/model.CreateMenuResponse"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/menu/{id}": {
+            "get": {
+                "description": "Show interest menu detail by given id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Get menu",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cyour access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Menu id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/web.JSONResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/model.MenuResponse"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "menu": {
+                                                            "$ref": "#/definitions/model.GetMenuResponse"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Menu not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update menu by given id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Update  menu",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Menu id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cyour access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "body request",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UpdateMenuRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/web.JSONResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/model.MenuResponse"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "menu": {
+                                                            "$ref": "#/definitions/model.UpdateMenuResponse"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete menu by given id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Delete menu",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Menu id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cyour access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "$ref": "#/definitions/web.JSONResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Menu not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/menu/{name}": {
+            "get": {
+                "description": "Show interest menu detail by given name",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Get menu by given name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cyour access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Menu name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/web.JSONResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/model.MenuResponse"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "menu": {
+                                                            "$ref": "#/definitions/model.GetMenuResponse"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Menu not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/order": {
+            "post": {
+                "description": "Create a new order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Create order",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cyour access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "body request",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CreateOrderRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/web.JSONResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/model.OrderResponse"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "order": {
+                                                            "$ref": "#/definitions/model.CreateOrderResponse"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/order/confirm/": {
+            "put": {
+                "description": "Confirm unpaid order based on given email",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Confirm order payment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cyour access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "customer email",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ConfirmPaymentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "$ref": "#/definitions/web.JSONResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/order/search": {
+            "get": {
+                "description": "Search an order based on given query params",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Search order",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cyour access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "menu'ss name (if more than one name separated with comma without additional space)",
+                        "name": "menu-names",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "customer's email (if more than one email separated with comma without additional space)",
+                        "name": "emails",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "menu's name",
+                        "name": "exact-names",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "the number of menus ordered per menu",
+                        "name": "qty",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "maximum price of menu",
+                        "name": "max-price",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "minimum price of menu",
+                        "name": "min-price",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "status or ordered menu",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ordered menu start at given day",
+                        "name": "start-day",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ordered menu end at given day",
+                        "name": "end-day",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "$ref": "#/definitions/web.JSONResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/owner": {
+            "get": {
+                "description": "Show list of owners by (optionally) given limit and/or offset",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "owner"
+                ],
+                "summary": "Show list of owners",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Pagination limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Pagination offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/web.JSONResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/model.OwnerResponse"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "owner": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/model.GetOwnerResponse"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create an owner through Sign up",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "owner"
+                ],
+                "summary": "Create an owner",
+                "parameters": [
+                    {
+                        "description": "Create owner payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CreateOwnerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/web.JSONResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/model.OwnerResponse"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "owner": {
+                                                            "$ref": "#/definitions/model.CreateOwnerResponse"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Email already registered",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/owner/reset-password/{rpid}": {
+            "put": {
+                "description": "Reset owner password by given rpid",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "owner"
+                ],
+                "summary": "Reset owner password (logged out state)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Owner reset password id",
+                        "name": "rpid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd password token here\u003e",
+                        "description": "Insert your password token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Reset Password payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ResetPasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "$ref": "#/definitions/web.JSONResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Owner not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/owner/{id}": {
+            "get": {
+                "description": "Show interest owner details",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "owner"
+                ],
+                "summary": "Get owner by given id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Owner id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/web.JSONResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/model.OwnerResponse"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "owner": {
+                                                            "$ref": "#/definitions/model.GetOwnerResponse"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Owner not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update owner by given owner's id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "owner"
+                ],
+                "summary": "Update owner",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Owner id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Update owner payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UpdateOwnerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "$ref": "#/definitions/web.JSONResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Owner not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete owner by given owner's id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "owner"
+                ],
+                "summary": "Delete owner",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Owner id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "sid=\u003cAdd your session id\u003e",
+                        "description": "Session id",
+                        "name": "Cookie",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "$ref": "#/definitions/web.JSONResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Owner not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/owner/{id}/reset-password": {
+            "put": {
+                "description": "Reset owner password by given id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "owner"
+                ],
+                "summary": "Reset owner password (logged in state)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Owner reset password id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "sid=\u003cAdd your session id\u003e",
+                        "description": "Session id",
+                        "name": "Cookie",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Reset Password payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ResetPasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "$ref": "#/definitions/web.JSONResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Owner not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/owner/{id}/update-email": {
+            "put": {
+                "description": "Update owner's email by given id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "owner"
+                ],
+                "summary": "Update Email owner",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Owner reset password id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "sid=\u003cAdd your session id\u003e",
+                        "description": "Session id",
+                        "name": "Cookie",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "schema": {
+                            "$ref": "#/definitions/web.JSONResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Owner not found",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrJSONResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.AuthForgotPasswordRequest": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.AuthLoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.AuthLoginResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.AuthLogoutRequest": {
+            "type": "object",
+            "required": [
+                "password"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.AuthRenewAccessTokenResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "expired_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.AuthResponse": {
+            "type": "object",
+            "properties": {
+                "auth": {
+                    "type": "object"
+                }
+            }
+        },
+        "model.BaseOrderRequest": {
+            "type": "object",
+            "required": [
+                "name",
+                "qty"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "qty": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.ConfirmPaymentRequest": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.CreateMenuRequest": {
+            "type": "object",
+            "required": [
+                "name",
+                "price"
+            ],
+            "properties": {
+                "categories": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.CreateMenuResponse": {
+            "type": "object",
+            "properties": {
+                "categories": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.CreateOrderRequest": {
+            "type": "object",
+            "required": [
+                "customer_email"
+            ],
+            "properties": {
+                "customer_email": {
+                    "type": "string"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.BaseOrderRequest"
+                    }
+                }
+            }
+        },
+        "model.CreateOrderResponse": {
+            "type": "object",
+            "properties": {
+                "customer_email": {
+                    "type": "string"
+                },
+                "message": {
+                    "description": "Orders        []BaseOrder `json:\"orders\"`",
+                    "type": "string"
+                },
+                "order_id": {
+                    "type": "integer"
+                },
+                "total_price": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.CreateOwnerRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password",
+                "phone_number"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.CreateOwnerResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.GetMenuResponse": {
+            "$ref": "#/definitions/model.CreateMenuResponse"
+        },
+        "model.GetOwnerResponse": {
+            "type": "object",
+            "properties": {
+                "date_of_birth": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.MenuResponse": {
+            "type": "object",
+            "properties": {
+                "menu": {
+                    "type": "object"
+                }
+            }
+        },
+        "model.OrderResponse": {
+            "type": "object",
+            "properties": {
+                "order": {
+                    "type": "object"
+                }
+            }
+        },
+        "model.OwnerResponse": {
+            "type": "object",
+            "properties": {
+                "owner": {
+                    "type": "object"
+                }
+            }
+        },
+        "model.ResetPasswordRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "password_confirm"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "password_confirm": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.UpdateMenuRequest": {
+            "$ref": "#/definitions/model.CreateMenuRequest"
+        },
+        "model.UpdateMenuResponse": {
+            "$ref": "#/definitions/model.CreateMenuResponse"
+        },
+        "model.UpdateOwnerRequest": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "date_of_birth": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "web.ErrJSONResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "object",
+                    "$ref": "#/definitions/web.Error"
+                },
+                "process_time": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": false
+                }
+            }
+        },
+        "web.Error": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "web.JSONResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "x-omitempty": true
+                },
+                "process_time": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
