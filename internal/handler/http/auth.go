@@ -70,7 +70,7 @@ func (handler *authHandler) Login() http.HandlerFunc {
 			Name:     consts.CookieSID,
 			Value:    resp.SID,
 			HttpOnly: true,
-			Expires:  time.Now().Add(15 * time.Minute), //? should use config?
+			Expires:  time.Now().Add(config.Cfg().Web.RefreshTokenTTL), //? should use config?
 		})
 
 		payload := model.AuthResponse{Auth: resp}

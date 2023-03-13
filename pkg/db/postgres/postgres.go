@@ -31,14 +31,14 @@ func New(source string, opts ...Option) (PostgresClient, error) {
 
 	db, err := sql.Open("postgres", source)
 	if err != nil {
-		err = fmt.Errorf("pkg.db.postgres.New: %w", err)
+		err = fmt.Errorf("postgres.New: %w", err)
 		return nil, err
 	}
 
 	err = db.Ping()
 	if err != nil {
 		db.Close()
-		err = fmt.Errorf("pkg.db.postgres.New: %w", err)
+		err = fmt.Errorf("postgres.New: %w", err)
 		return nil, err
 	}
 

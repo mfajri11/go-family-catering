@@ -2,7 +2,7 @@
 
 ## Config variables
 
-The Listing.2 show all possible configurable value that can be written through `./config/config.development.yaml`  also  please notice in this markdown I use format `<outerKey>.<key>` for easier identification while they are actually written as shown at Listing.1.
+The Listing.2 show all possible configurable value that can be written through `./config/config.development.yaml`  also  please notice at this markdown I use format `<outerKey>.<key>` for easier identification while they are actually written as shown at Listing.1.
 
 Listing.1
 
@@ -10,6 +10,7 @@ Listing.1
 <outerKey>:
 	<key>
 ```
+
 
 | key                                  | type   | status   | example                             | default                             |
 | ------------------------------------ | ------ | -------- | ----------------------------------- | ----------------------------------- |

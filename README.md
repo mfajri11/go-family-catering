@@ -14,15 +14,16 @@ This project is re-written of my solution for the individual final project for b
 
 ## Features
 
-- [Open API Specification](https://swagger.io/specification/v2/) 2.0  `swaggo` (can be found here  `http://localhost:9000/swagger/index.html`)
+- [Open API Specification](https://swagger.io/specification/v2/) 2.0  `Swagger`
 - Make command options and its documentation via `make` or `make help`
+- CronJob
 - Access Token and Refresh Token using [JWT](https://www.rfc-editor.org/rfc/rfc7519)
 - Session id with random `string` and Redis
 - CRUD operation (Postgres `raw sql`)
 - [Easy configuration interface](./config/config.md) via yaml file
 - Database migrations
 - Request Validation
-- middlewares [CORS](https://github.com/go-chi/cors) , [sliding window counter rate limiter](https://github.com/go-chi/httprate), custom logger, etc.
+- middlewares [CORS](https://github.com/go-chi/cors) , [HTTP Rate Limiter](https://github.com/go-chi/httprate) (By IP and Session ID), custom logger, etc.
 - Graceful shutdown
 - more...
 
@@ -36,7 +37,7 @@ This project is re-written of my solution for the individual final project for b
 
 ## Architecture
 
-This project has 4 domain layer
+This project has 4 domain layers
 
 - model
 - repository
@@ -47,10 +48,12 @@ This project has 4 domain layer
 
 #### Mailer
 
-if you won't use a fake smtp server like `mailhog` please change your host address of your chosen smtp server as shown at Listing.1. In case you are using real smtp server such as [gmail](https://gmail.com) and get `bad credentials` error while your credential is actually corrects, please activate [less secure apps](https://myaccount.google.com/lesssecureapps).
+if you won't use a fake smtp server like `mailhog` please change your host address of your chosen smtp server as shown at Listing.1 and delete line as shown as Listing.2, In case you are using real smtp server such as [gmail](https://gmail.com) and get `bad credentials` error while your credentials is actually correct, please activate [less secure apps](https://myaccount.google.com/lesssecureapps).
+
+Listing.1
 
 ```yaml
-# ./docker-compose.yaml
+# ./config/config.development.yaml
 mailer:
   host: <localhost or you choosen smtp server ip address>
   port: <you choosen smtp server port number>
@@ -75,17 +78,18 @@ mailhog:
 
 #### Postgres
 
-if you already have postgres server running on you machine and want to use yours. please delete the postgres service at `./docker-compose.yaml` just like the instruction for deleting mailhog service but postgres instead and do not forget to setting up your host and port according to your postgres.
+if you already have postgres server running on your machine and want to use yours. please delete the postgres service at `./docker-compose.yaml` just like the instruction for deleting mailhog service but postgres instead and do not forget to setting up your host and port at `.config/config.development.yaml` according to your postgres.
 
 #### Redis
 
-for redis service it goes the same like what to do with postgres.
+for redis service it goes the same way as the [Postgres](#postgres) section does.
 
 if you want to use your `redis.conf` please paste your content to `./config/redis.conf` or if you don't want to use password or `redis.conf` please delete line in Listing.3.
 
 Listing.3
 
 ```yaml
+# ./docker-compose.yaml
 redis:
   # delete from this
   command: ["redis-server", "/etc/redis/redis.conf", "--save 30 1"]
@@ -95,6 +99,17 @@ redis:
 ```
 
 ## How to run
+
+###### clone
+
+Download the repo and move to its directory in order to use `make` for `install`, `migrate` etc
+
+```shell
+# clonning the repo
+$ git clone https://github.com/mfajri11/go-family-catering.git
+# move to clonned repo directory
+$ cd go-family-catering
+```
 
 ###### Running
 

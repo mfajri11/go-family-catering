@@ -25,7 +25,7 @@ func New(address string, password string, opts ...Option) (RedisClient, error) {
 	err := redisDB.Ping(ctx).Err()
 	if err != nil {
 		redisDB.Close()
-		err = fmt.Errorf("pkg.db.redis.New: %w", err)
+		err = fmt.Errorf("redis.New: %w", err)
 		return nil, err
 	}
 

@@ -17,7 +17,7 @@ help:
 .PHONY: help
 
 install: ## install the application or if use container will build the containers needed
-	@if [ "$(container)" = 'false' ]; then \
+	@if [[ '$(container)' = 'false' || '$(container)' = 'False' || '$(container)' = 'FALSE' ]]; then \
 		GOOS=linux GOARCH=amd64 CGO_ENABLED=0 \
     	go build -ldflags="-s -w" -o ./bin/fcat ./cmd/main.go; \
 	else \
@@ -27,16 +27,24 @@ install: ## install the application or if use container will build the container
 
 
 version: ## print the current version of the family-catering app
-	@ ./bin/fcat version || go run ./cmd/main.go version
+	@ go run ./cmd/main.go version
 .PHONY: version
 
-start: ## running all containers built by 'make start'
+start: ## running all containers built by 'make install'
 	@if [[ '$(container)' = 'false' || '$(container)' = 'False' || '$(container)' = 'FALSE' ]]; then \
 		./bin/fcat run || go run ./cmd/main.go run; \
 	else \
 		make compose-start; \
 	fi
 .PHONY: start
+
+run: ## running all containers built by 'make install' and attach to go app container
+	@if [[ '$(container)' = 'false' || '$(container)' = 'False' || '$(container)' = 'FALSE' ]]; then \
+		./bin/fcat run || go run ./cmd/main.go run; \
+	else \
+		make compose-start && docker attach fcat; \
+	fi
+.PHONY: run
 
 stop: ## stop running containers by 'make start'
 	@make compose-stop
@@ -46,31 +54,36 @@ stop: ## stop running containers by 'make start'
 down: ## stopping and removing built containers
 	@if [[ '$(container)' = 'false' || '$(container)' = 'False' || '$(container)' = 'FALSE' ]]; then \
 		sudo rm -f ./bin/fcat; \
-	else  \ 
-		@make compose-down; \
+	else \
+		make compose-down; \
 	fi
 .PHONY: down
 
 migrate: ## running migration all the way up from active version of the schema (up migrations)
-	@if [ '$(container)' = 'false' ]; then \
-	 	go run ./cmd/main.go migrate; \
-	 else \
-		docker start --attach fcat \
-		|| docker run fcat migrate; \
+	@ if [[ '$(container)' = 'false' || '$(container)' = 'False' || '$(container)' = 'FALSE' ]]; then \
+		./bin/fcat migrate || go run ./cmd/main.go migrate; \
+	else \
+		docker exec fcat ./fcat migrate; \
 	fi
 .PHONY: migrate
 	
 
 rollbacks: ## running migration all the way down from active version of the schema (down migrations)
-	@if [ '$(container)' = 'false' ]; then \
-		./bin/fcat rollbacks; \
-		|| go run ./cmd/main.go rollbacks \
-		\
+	@ if [[ '$(container)' = 'false' || '$(container)' = 'False' || '$(container)' = 'FALSE' ]]; then \
+		./bin/fcat rollbacks || go run ./cmd/main.go rollbacks; \
 	else \
-		docker start fcat-rollbacks \
-		|| docker run --name fcat-rollbacks fcat rollbacks; \
+		docker exec fcat ./fcat rollbacks; \
 	fi 
 .PHONY: rollbacks
+
+drop: ## drop everythig everything at the database
+	@if [[ '$(container)' = 'false' || '$(container)' = 'False' || '$(container)' = 'FALSE' ]]; then \
+		./bin/fcat drop \
+		|| go run ./cmd/main.go drop; \
+	else \
+		docker exec fcat ./fcat drop; \
+	fi 
+.PHONY: drop
 
 step: ## running migration n step up/down relatively from active version of the schema (if n > 0 it will migrate up, otherwise is down)
 	@if [ -z '$(n)' ]; then \
@@ -81,31 +94,28 @@ step: ## running migration n step up/down relatively from active version of the 
 			|| go run ./cmd/main.go step -n $(n); \
 		\
 	else \
-		docker start fcat-step -n $(n) \
-		|| docker run --name fcat-step fcat step -n $(n); \
+		docker exec fcat ./fcat step -n $(n); \
 	fi
 .PHONY: step
 
 test:
-	@ go test -count 1 -coverprofile coverage ./...;
-	 | cat coverage \
-	 | grep -v mock > coverage;
-	@ go tool cover -html=coverage
-	@ sudo rm -f ./coverage
+	@ go test -count=1 -coverprofile coverage ./...;
+	@ cat coverage | grep -v mock > coverage;
+	@ go tool cover -html=coverage;
 .PHONY: test
 
 compose-up: 
-	@docker-compose up --build -d
-.PHONY: compose.up
+	@docker-compose up --build -d && docker attach fcat
+.PHONY: compose-up
 
 compose-start: 
-	@docker-compose start && docker attach fcat
+	@docker-compose start 
 .PHONY: compose-start
 
-compse-stop:
+compose-stop:
 	@docker-compose stop
-.PHONY: compse.stop
+.PHONY: compose.stop
 
 compose-down:
-	@docker-compose down -f -v --remove-orphans
+	@docker-compose down -v --remove-orphans
 .PHONY: compose-down

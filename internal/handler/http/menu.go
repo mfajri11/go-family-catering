@@ -30,7 +30,7 @@ func NewMenuHandler(menuService service.MenuService) MenuHandler {
 	return &menuHandler{menuService: menuService}
 }
 
-// GetMenuByID godoc
+// GetIDMenuBy godoc
 //	@Router			/menu/{id} [get]
 //	@Summary		Get menu
 //	@Description	Show interest menu detail by given id
@@ -66,7 +66,7 @@ func (handler *menuHandler) GetByID() http.HandlerFunc {
 	}
 }
 
-// GetMenuByName godoc
+// GetByNameMenu godoc
 //	@Router			/menu/{name} [get]
 //	@Summary		Get menu by given name
 //	@Description	Show interest menu detail by given name
@@ -176,7 +176,7 @@ func (handler *menuHandler) Create() http.HandlerFunc {
 	}
 }
 
-// CreateMenu godoc
+// UpdateMenu godoc
 //	@Router			/menu/{id} [put]
 //	@Summary		Update  menu
 //	@Description	Update menu by given id
@@ -223,7 +223,7 @@ func (handler *menuHandler) Update() http.HandlerFunc {
 	}
 }
 
-// DeleteOwner godoc
+// DeleteMenu godoc
 //	@Router			/menu/{id} [delete]
 //	@Summary		Delete menu
 //	@Description	Delete menu by given id

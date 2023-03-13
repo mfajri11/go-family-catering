@@ -4,7 +4,6 @@ import (
 	"family-catering/config"
 	"family-catering/internal/app"
 	"family-catering/pkg/db/migration"
-	"family-catering/pkg/logger"
 	"fmt"
 	"os"
 
@@ -42,7 +41,7 @@ func version() *cli.Command {
 
 func migrate() *cli.Command {
 	command := &cli.Command{
-		Name:        "migrations",
+		Name:        "migrate",
 		Description: "migrate all the way up from active schema",
 		Action: func(c *cli.Context) error {
 			return migration.Up()
@@ -105,8 +104,6 @@ func start() *cli.Command {
 		Action: func(c *cli.Context) error {
 			err := migration.Up()
 			if err != nil {
-				err = fmt.Errorf("cli: error migrate up: %w", err)
-				logger.Error(err, "error migrate up")
 				return err
 			}
 			return app.Run()

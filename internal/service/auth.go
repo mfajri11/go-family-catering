@@ -231,8 +231,8 @@ func (svc *authService) RenewAccessToken(ctx context.Context) (*model.AuthRenewA
 	Session, okSession := utils.ValueContext(ctx, consts.CtxKeySession).(*model.AuthSessionResponse)
 	token, ok := utils.ValueContext(ctx, consts.CtxKeyAuthorization).(string)
 	if !ok || !okSession {
-		err := fmt.Errorf("service.authService.RenewAccessToken: invalid auth token type want string got %T", token)
-		return nil, apperrors.WrapError(err, apperrors.ErrAuth, "invalid auth token type")
+		err := fmt.Errorf("service.authService.RenewAccessToken: invalid auth token or session")
+		return nil, apperrors.WrapError(err, apperrors.ErrAuth, "invalid auth token or session")
 	}
 	payload, err := utils.ValidateToken(token)
 	if !errors.Is(err, nil) {

@@ -47,7 +47,7 @@ func Run() error {
 		postgres.WithMaxOpenConnection(cfg.Postgres.OpenConnection))
 	if err != nil {
 		err = fmt.Errorf("app.Run: %w", err)
-		return err
+		logger.Fatal(err, "can't connect to postgres")
 	}
 
 	redis, err := redis.New(
@@ -67,6 +67,7 @@ func Run() error {
 		logger.Info("cron cancelUnpaidOrder start running")
 		nAffected, err := orderRepo.CancelUnpaidOrder(context.Background())
 		if err != nil {
+			err = fmt.Errorf("app.Run: %w", err)
 			logger.Error(err, "error execute cron cancelUnpaidOrder: %s", err.Error())
 		} else {
 			logger.Info("cron success execute, # affected: %d", nAffected)

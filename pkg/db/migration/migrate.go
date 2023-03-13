@@ -46,43 +46,53 @@ func newOrGet() *migrate.Migrate {
 	return m
 }
 
-func handleMigrateError(err error) error {
+func handleMigrateError(err error, caller string) error {
 	if errors.Is(err, migrate.ErrNoChange) {
 		return nil
 	}
 
 	if err != nil {
-		return fmt.Errorf("migration: %w", err)
+		msg := err.Error()
+		err = fmt.Errorf("migration.%s: %w", caller, err)
+		logger.Error(err, msg)
+		return err
 	}
+
+	logger.Info("migration.%s: success %s", caller, caller)
 	return nil
 }
 
 func Up() error {
+	logger.Info("migrate.Up: starting Up")
 	m := newOrGet()
 	err := m.Up()
-	return handleMigrateError(err)
+	return handleMigrateError(err, "Up")
 }
 
 func Down() error {
+	logger.Info("migrate.Down: starting Down")
 	m := newOrGet()
 	err := m.Down()
-	return handleMigrateError(err)
+	return handleMigrateError(err, "Down")
 }
 
 func Step(n int) error {
+	logger.Info("migrate.Step: starting Step")
 	m := newOrGet()
 	err := m.Steps(n)
-	return handleMigrateError(err)
+	return handleMigrateError(err, "Step")
 }
 
 func Drop() error {
+	logger.Info("migrate.Drop: starting Drop")
 	m := newOrGet()
 	err := m.Drop()
-	return handleMigrateError(err)
+	return handleMigrateError(err, "Drop")
 
 }
 
 func Close() (error, error) {
+	logger.Info("migrate.Stop: starting close source and database")
 	sourceErr, dbErr := m.Close()
 	if sourceErr != nil {
 		sourceErr = fmt.Errorf("migration.Close: %w", sourceErr)
