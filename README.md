@@ -46,6 +46,10 @@ This project has 4 domain layers
 
 ## Note
 
+#### HTTP API Documentation
+
+Any api documentation can be found at `http://localhost:9000/swagger/index.html`
+
 #### Mailer
 
 if you won't use a fake smtp server like `mailhog` please change your host address of your chosen smtp server as shown at Listing.1 and delete line as shown as Listing.2, In case you are using real smtp server such as [gmail](https://gmail.com) and get `bad credentials` error while your credentials is actually correct, please activate [less secure apps](https://myaccount.google.com/lesssecureapps).
